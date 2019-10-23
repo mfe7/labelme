@@ -3,13 +3,24 @@
 # MFE oct 2019
 
 ```bash
-python google2voc.py driveways driveways_voc \
+python google2voc.py \
+	driveways \
+	driveways_voc \
 	--labels labels_driveways.txt \
-	--polygons /home/mfe/Downloads/labels_driveways_100.json \
-	--local_dataset_dir /home/mfe/Downloads/driveways_openstreetcam
+	--polygons /home/mfe/Downloads/labels_driveways_245.json /home/mfe/Downloads/labels_driveways_100.json \
+	--local_dataset_dir /home/mfe/Downloads/driveways_openstreetcam \
+	--exclude frame
+	# --merge_classes sidewalk path
+
+python google2voc.py \
+	driveways \
+	driveways_voc_justin \
+	--labels labels_driveways.txt \
+	--polygons /home/mfe/Downloads/labels_driveways_245.json /home/mfe/Downloads/labels_driveways_100.json \
+	--local_dataset_dir /home/mfe/Downloads/driveways_openstreetcam \
+	--include frame \
+	--merge_classes sidewalk path
 ```
-
-
 
 ## Annotation
 
