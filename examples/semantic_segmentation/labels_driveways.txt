@@ -1,0 +1,12 @@
+__ignore__
+_background_
+grass
+road
+driveway
+car
+path
+sidewalk
+mailbox
+tree
+house
+front_door

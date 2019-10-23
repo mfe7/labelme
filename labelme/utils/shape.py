@@ -45,6 +45,26 @@ def shape_to_mask(img_shape, points, shape_type=None,
     mask = np.array(mask, dtype=bool)
     return mask
 
+def google_poly_to_mask(img_shape, points):
+    mask = np.zeros(img_shape[:2], dtype=np.uint8)
+    mask = PIL.Image.fromarray(mask)
+    draw = PIL.ImageDraw.Draw(mask)
+    xy = []
+    for point in points:
+        if "x" not in point:
+            x = 0
+        else:
+            x = point["x"]
+        if "y" not in point:
+            y = 0
+        else:
+            y = point["y"]
+        xy.append(tuple([img_shape[1]*x,img_shape[0]*y]))
+    assert len(xy) > 2, 'Polygon must have points more than 2'
+    draw.polygon(xy=xy, outline=1, fill=1)
+    mask = np.array(mask, dtype=bool)
+    return mask
+
 
 def shapes_to_label(img_shape, shapes, label_name_to_value, type='class'):
     assert type in ['class', 'instance']
@@ -72,6 +92,19 @@ def shapes_to_label(img_shape, shapes, label_name_to_value, type='class'):
 
     if type == 'instance':
         return cls, ins
+    return cls
+
+def google_annotations_to_label(img_shape, annotations, label_name_to_value, type='class'):
+    assert type in ['class', 'instance']
+
+    cls = np.zeros(img_shape[:2], dtype=np.int32)
+    for annotation in annotations:
+        points = annotation["annotation_value"]["image_bounding_poly_annotation"]["normalized_bounding_poly"]["normalized_vertices"]
+        label = annotation["annotation_value"]["image_bounding_poly_annotation"]["annotation_spec"]["display_name"]
+        cls_name = label
+        cls_id = label_name_to_value[cls_name]
+        mask = google_poly_to_mask(img_shape[:2], points)
+        cls[mask] = cls_id
     return cls
 
 

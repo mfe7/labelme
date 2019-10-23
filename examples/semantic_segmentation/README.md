@@ -1,5 +1,16 @@
 # Semantic Segmentation Example
 
+# MFE oct 2019
+
+```bash
+python google2voc.py driveways driveways_voc \
+	--labels labels_driveways.txt \
+	--polygons /home/mfe/Downloads/labels_driveways_100.json \
+	--local_dataset_dir /home/mfe/Downloads/driveways_openstreetcam
+```
+
+
+
 ## Annotation
 
 ```bash
